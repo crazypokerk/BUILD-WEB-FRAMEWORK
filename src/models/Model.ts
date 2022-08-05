@@ -6,12 +6,12 @@ type ModelAttributes<T> = {
   get<K extends keyof T>(key: K): T[K]
 }
 
-type Eventing = {
+type Events = {
   on(eventName: string, callback: () => void): void
   trigger(eventName: string): void
 }
 
-type ApiSync<T> = {
+type Sync<T> = {
   fetch(id: number): AxiosPromise
   save(data: T): AxiosPromise
 }
@@ -21,19 +21,13 @@ type HasId = {
 }
 
 export class Model<T extends HasId> {
-  constructor(private attributes: ModelAttributes<T>, private events: Eventing, private sync: ApiSync<T>) {}
+  constructor(private attributes: ModelAttributes<T>, private events: Events, private sync: Sync<T>) {}
 
-  get on() {
-    return this.events.on
-  }
+  on = this.events.on
 
-  get trigger() {
-    return this.events.trigger
-  }
+  trigger = this.events.trigger
 
-  get get() {
-    return this.attributes.get
-  }
+  get = this.attributes.get
 
   set(update: T) {
     this.attributes.set(update)
@@ -51,14 +45,6 @@ export class Model<T extends HasId> {
   }
 
   save(): void {
-    const newAttr = this.attributes.getAll()
-    this.sync
-      .save(newAttr)
-      .then((response: AxiosResponse) => {
-        this.trigger('save')
-      })
-      .catch((error) => {
-        throw new Error(error)
-      })
+    this.sync.save(this.attributes.getAll())
   }
 }
