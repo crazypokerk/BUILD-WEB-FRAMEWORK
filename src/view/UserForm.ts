@@ -12,23 +12,23 @@ export class UserForm extends View<User, UserProps> {
   }
 
   onSetAgeClick = (): void => {
-    this.user.setRandomAge()
+    this.model.setRandomAge()
   }
 
   onSetNameClick = (): void => {
     const input = this.parent.querySelector('input')
     // 添加类型守卫
-    if (input) this.user.set({ name: input.value })
+    if (input) this.model.set({ name: input.value })
   }
 
   onSaveClick = (): void => {
-    this.user.save()
+    this.model.save()
   }
 
   template(): string {
     return `
         <div>
-            <input placeholder='${this.user.get('name')}' />
+            <input placeholder='${this.model.get('name')}' />
             <button id='set-name'>Change Name</button>
             <button id='set-age'>Set Random Age</button>
             <button id='save-model'>Save</button>

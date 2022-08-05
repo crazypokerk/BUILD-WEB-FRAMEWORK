@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Collection } from './models/Collection'
 import { User, UserProps } from './models/User'
+import { UserEdit } from './view/UserEidt'
 import { UserForm } from './view/UserForm'
 
 // const u = new User({ name: 'zs', age: 12 })
@@ -137,8 +138,9 @@ const user = User.buildUser({
 
 const root = document.getElementById('root')
 if (root) {
-  const userForm = new UserForm(root, user)
-  userForm.render()
+  const userEdit = new UserEdit(root, user)
+  userEdit.render()
+  console.log(userEdit)
 } else {
   throw new Error()
 }
