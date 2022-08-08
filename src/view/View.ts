@@ -1,6 +1,4 @@
 import { Model } from '../models/Model'
-import { UserEdit } from './UserEidt'
-import { UserShow } from './UserShow'
 
 export abstract class View<T extends Model<K>, K> {
   // 对象名: { 键的类型为sring : 值类型为Element } = {}
@@ -35,6 +33,7 @@ export abstract class View<T extends Model<K>, K> {
     }
   }
 
+  // 该辅助方法是为了将嵌入的模板放入regions中的值
   mapRegions(fragment: DocumentFragment): void {
     const regionsMap = this.regionsMap()
     for (let regionKey in regionsMap) {
@@ -45,7 +44,7 @@ export abstract class View<T extends Model<K>, K> {
       }
     }
   }
-
+  // 此方法是为了在render()方法中调用，渲染嵌入的模板，真正的实现在UserEdit类中
   onRender(): void {}
 
   render(): void {
